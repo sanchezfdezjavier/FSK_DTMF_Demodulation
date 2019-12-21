@@ -6,13 +6,17 @@ clear
 load incognita
 
 % Espectrograma
-signal_recortada = incognita(1:600);
-window = 40;
+signal = incognita;
+window = 50;
 noverlap = 0;
-nfft = 80;
+nfft = window.*3;
 
-colormap('default');
-spectrogram(signal_recortada, window, noverlap, nfft);
+colormap('cool');
+figure(1);
+spectrogram(signal(1:600), window, noverlap, nfft);
+xlabel('Frecuency [Hz]');
+ylabel('Time [s]');
+title('Espectrogram');
 
 % Recogida de valores
 
