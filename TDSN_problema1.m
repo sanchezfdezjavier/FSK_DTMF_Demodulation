@@ -11,7 +11,7 @@ window = 50;
 noverlap = 0;
 nfft = window.*3;
 
-colormap('cool');
+colormap('default');
 figure(1);
 spectrogram(signal(1:600), window, noverlap, nfft);
 xlabel('Frecuency [Hz]');
@@ -23,6 +23,15 @@ title('Espectrogram');
 S = 0;
 F = 0;
 T = 0;
-fs = 2.*f1;
 
 [S, F, T] = spectrogram(incognita, window, noverlap, nfft, fs);
+
+% Procesamiento de datos
+
+bits = zeros(1, 9600);
+
+for i= 1:9600
+    if(max(abs(S(:,i))) > 13.272)
+        bits(i) = 1;
+    end
+end 
