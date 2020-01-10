@@ -39,18 +39,14 @@ end
 
 % Funcion bit2txt
 
-char_bin = char(bits + '0');
-char(bin2dec(char_bin(1:8))); % Output: 'E'
+bits_reshaped_bin = reshape(bits, 8, 1200)';
+bits_reshaped_char = char(bits_reshaped_bin + '0');
+message = char(bin2dec(bits_reshaped_char))';
 
-char_bin_reshaped = reshape(char_bin, 1200, 8);
 
-final_string = '';
 
-%reshape experimental
 
-for j = 1:1200
-    final_string(1,i) = char(bin2dec(char_bin_reshaped(j,:)));
-end
+
 
     
     
