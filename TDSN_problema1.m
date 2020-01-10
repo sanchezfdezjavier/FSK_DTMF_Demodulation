@@ -36,13 +36,9 @@ for i= 1:9600
     end
 end
 
+% Sacamos el mensaje decodificado por consola
 
-% Funcion bit2txt
-
-bits_reshaped_bin = reshape(bits, 8, 1200)';
-bits_reshaped_char = char(bits_reshaped_bin + '0');
-message = char(bin2dec(bits_reshaped_char))';
-
+binToTxt(bits)
 
 
 
