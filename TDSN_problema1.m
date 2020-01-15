@@ -7,11 +7,11 @@ load incognita
 
 % Espectrograma
 signal = incognita;
-window = 50;
+window = 40;
 noverlap = 0;
 nfft = window.*3;
 
-colormap('cool');
+colormap('jet');
 figure(1);
 spectrogram(signal(1:600), window, noverlap, nfft);
 xlabel('Frecuency [Hz]');
@@ -47,9 +47,9 @@ load telef1.mat
 % Definicion de constantes
 f1_freqs = [704, 792, 872, 956];
 f2_freqs = [1224, 1386, 1512];
-window_DTMF = 1000;
+window_DTMF = 400;
 noverlap = 0;
-nffs = 1000;
+nffs = window_DTMF.*3;
 
 % Representación del espectrograma
 figure(2);
@@ -83,6 +83,20 @@ valueSet = {'1', '2', '3', '4', '5',...
     '6', '7','8','9','#','0','*'}
 
 dict = containers.Map(keySet, valueSet);
+
+% Bucle de muestreo
+sampled_S = zeros(601,1);
+real_S = abs(S);
+n = 2
+while n <= 42
+    sampled_S = [sampled_S real_S(:,n)];
+    n = n+5;
+end
+
+% S muestreado
+sampled_S = sampled_S(:, 2:end);
+
+
 
 
 
