@@ -7,7 +7,7 @@ load incognita
 
 % Espectrograma
 signal = incognita;
-window = 40;
+window = 50;
 noverlap = 0;
 nfft = window.*3;
 
@@ -93,9 +93,50 @@ while n <= 42
     n = n+5;
 end
 
-% S muestreado
+% Quito el primer vector, residuo de la inizializacion
 sampled_S = sampled_S(:, 2:end);
 
+
+S_posible_repeated = [];
+f1s = [];
+f2s = [];
+for i = 1:9
+    sorted = sort(sampled_S(:,i));
+    disp(sorted(end-1:end));
+    s1 = sorted(end);
+    s2 = sorted(end-1);
+    s1_s2 = [s1 s2];
+    f1s = [f1s s1];
+    f2s = [f2s s2];
+    
+    S_posible_repeated = [S_posible_repeated s1_s2];
+end
+
+set_S_posible = unique(S_posible_repeated);
+
+
+auxf1= [];
+auxf2=[];
+for j = 1:9
+    f11j = does_freq_exists(sampled_S(107,j));
+    f12j = does_freq_exists(sampled_S(119,j));
+    f13j = does_freq_exists(sampled_S(132,j));
+    f14j = does_freq_exists(sampled_S(144,j));
+    
+    f21j = does_freq_exists(sampled_S(185,j));
+    f22j = does_freq_exists(sampled_S(206,j));
+    f23j = does_freq_exists(sampled_S(228,j));
+    
+    auxf1 = [auxf1 ; [f11j f12j f13j f14j]];
+    auxf2 = [auxf2 ; [f21j f22j f23j]];
+end
+
+auxf1
+auxf2
+
+
+
+    
 
 
 
