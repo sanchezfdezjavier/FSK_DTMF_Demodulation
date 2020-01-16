@@ -1,3 +1,8 @@
+% -------------------------------
+% Autor: Javier Sánchez Fernández
+% -------------------------------
+
+
 % 1. DEMODULACION SEÑAL FSK BINARIA
 
 % 1.1. Preparacion del entorno de trabajo
@@ -10,7 +15,6 @@ signal = incognita;
 window = 50;
 noverlap = 0;
 nfft = window.*3;
-
 colormap('jet');
 figure(1);
 spectrogram(signal(1:600), window, noverlap, nfft);
@@ -19,15 +23,13 @@ ylabel('Time [s]');
 title('Espectrogram');
 
 % 1.2. Recogida de valores
-
 S = 0; F = 0; T = 0;
-
 [S, F, T] = spectrogram(incognita, window, noverlap, nfft, fs);
 
-% 1.3. Obtenemos la ristra de bits
+% 1.3. Decodificamos la señal FSK binaria en funcion del valor de S
+% obtenido.
 
 bits = zeros(1, 9600);
-
 for i= 1:9600
     if(max(abs(S(:,i))) < 13.272) % 13.2732 = '0'y 13.2711 = '1'
         bits(i) = 1;
@@ -54,6 +56,7 @@ nffs = window_DTMF.*3;
 
 % 2.2. Representación del espectrograma
 figure(2);
+colormap('default')
 spectrogram(telef, window_DTMF, noverlap, nffs, fs);
 
 % 2.3. Calculo de la STFT
