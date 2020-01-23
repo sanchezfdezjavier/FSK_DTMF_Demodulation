@@ -18,9 +18,9 @@ nfft = window.*3;
 colormap('jet');
 figure(1);
 spectrogram(signal(1:600), window, noverlap, nfft);
-xlabel('Frecuency [Hz]');
-ylabel('Time [s]');
-title('Espectrogram');
+xlabel('Frecuency');
+ylabel('Time');
+title('Espectrograma de la señal FSK binaria');
 
 % 1.2. Recogida de valores
 S = 0; F = 0; T = 0;
@@ -29,8 +29,9 @@ S = 0; F = 0; T = 0;
 % 1.3. Decodificamos la señal FSK binaria en funcion del valor de S
 % obtenido.
 
-bits = zeros(1, 9600);
-for i= 1:9600
+l = length(S(1,:));
+bits = zeros(1, l);
+for i= 1:l
     if(max(abs(S(:,i))) < 13.272) % 13.2732 = '0'y 13.2711 = '1'
         bits(i) = 1;
     end
@@ -67,7 +68,8 @@ S = 0; F = 0; T = 0;
 sampled_S = zeros(601,1);
 real_S = abs(S);
 n = 2;           % vector donde iniciamos el muestreo
-while n <= 42
+bound = (length(S(1,:)) - 3);
+while n <= bound
     sampled_S = [sampled_S real_S(:,n)];
     n = n+5;    % muestreamos cada 5 posiciones
 end
@@ -80,7 +82,9 @@ sampled_S = sampled_S(:, 2:end); % elimino la primera columna de ceros, residuo 
 
 auxf1= [];
 auxf2=[];
-for j = 1:9
+
+k = length(S(1,:))/5;
+for j = 1:k
     f11j = does_freq_exists(sampled_S(107,j));
     f12j = does_freq_exists(sampled_S(119,j));
     f13j = does_freq_exists(sampled_S(132,j));
@@ -96,7 +100,7 @@ end
 
 % 2.6. Decodificamos las frecuencias presentes en cada muestra segun la tabla
 telef = [''];
-for m = 1:9
+for m = 1:k
     f1m = auxf1(m,:);
     f2m = auxf2(m,:);
     
