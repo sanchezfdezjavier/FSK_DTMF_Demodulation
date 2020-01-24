@@ -11,11 +11,11 @@ clear
 load incognita
 
 % 1.2. Espectrograma
-signal = incognita;
-window = 50;
+signal = incognita(1:600);
+window = fs/Vbit;
 noverlap = 0;
 nfft = window.*3;
-colormap('jet');
+colormap('default');
 figure(1);
 spectrogram(signal(1:600), window, noverlap, nfft);
 xlabel('Frecuency');
@@ -24,7 +24,7 @@ title('Espectrograma de la señal FSK binaria');
 
 % 1.2. Recogida de valores
 S = 0; F = 0; T = 0;
-[S, F, T] = spectrogram(incognita, window, noverlap, nfft, fs);
+[S, F, T] = spectrogram(incognita, rectwin(window), noverlap, nfft, fs);
 
 % 1.3. Decodificamos la señal FSK binaria en funcion del valor de S
 % obtenido.
@@ -32,7 +32,7 @@ S = 0; F = 0; T = 0;
 l = length(S(1,:));
 bits = zeros(1, l);
 for i= 1:l
-    if(max(abs(S(:,i))) < 13.272) % 13.2732 = '0'y 13.2711 = '1'
+    if(abs(S(13,i)) < 13.272) % 13.2732 = '0'y 13.2711 = '1'
         bits(i) = 1;
     end
 end
@@ -42,7 +42,7 @@ message = binToTxt(bits);
 message
 
 
-% 2. DECODIFICACION SEÑAL DTMF
+% % 2. DECODIFICACION SEÑAL DTMF
 
 % Preparamos el entorno
 clear
